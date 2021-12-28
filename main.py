@@ -1,12 +1,20 @@
 import requests
 import datetime
+import os
 
-NUTRITION_API_KEY = "719db338e40c3b8efe94e12bb1ca0c1a"
-NUTRITION_API_APPLICATION_ID = "b0fa724b"
+# Set it to your gender. It should be in string.
 GENDER = "male"
+# Weight as integer.
 WEIGHT = 55
+# Height as integer.
 HEIGHT = 165
+# Age as integer
 AGE = 15
+
+NUTRITION_API_KEY = os.environ.get("APIKEY")
+NUTRITION_API_APPLICATION_ID = os.environ.get("APPID")
+USERNAME = os.environ.get("APIUSERNAME")
+PASSWORD = os.environ.get("PASSWORD")
 
 nutrition_post_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
 
@@ -45,6 +53,6 @@ for exercise in data["exercises"]:
             "calories": round(data["exercises"][0]["nf_calories"])
         }
     }
-    sheety_endpoint = "https://api.sheety.co/akilesh/myWorkouts/workouts"
-    sheety_response = requests.post(url=sheety_endpoint, json=sheety_parameters)
+    sheety_endpoint = os.environ.get("SHEETENDPOINT")
+    sheety_response = requests.post(url=sheety_endpoint, json=sheety_parameters, auth=(USERNAME, PASSWORD))
     print(sheety_response.text)
